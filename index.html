@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>С днём рождения, Богдан! | Bodystyle</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- canvas-confetti библиотека для эффектного салюта -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* лёгкая эстетика, текст копировать можно */
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0f172a 0%, #1e1a2f 40%, #2a1e3c 100%);
+            font-family: 'Inter', 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Анимированные фоновые шары / частицы (спортивно-праздничный фон) */
+        .bg-bubble {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,215,0,0.25), rgba(255,100,150,0.2));
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            animation: floatBubble 18s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            100% { transform: translate(40px, -40px) scale(1.2); opacity: 0.7; }
+        }
+
+        /* Главная карточка */
+        .birthday-card {
+            position: relative;
+            z-index: 10;
+            max-width: 880px;
+            width: 100%;
+            background: rgba(20, 15, 35, 0.65);
+            backdrop-filter: blur(14px);
+            border-radius: 3.5rem;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.2) inset, 0 0 30px rgba(255,100,80,0.3);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .birthday-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 35px 55px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,200,0,0.5) inset;
+        }
+
+        /* Хедер с бейджами */
+        .hero {
+            padding: 2rem 2rem 1rem 2rem;
+            text-align: center;
+            background: linear-gradient(120deg, rgba(0,0,0,0.4), rgba(255,100,50,0.1));
+            border-bottom: 1px solid rgba(255, 200, 100, 0.4);
+        }
+
+        .badge-bodystyle {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 1.5rem;
+            border-radius: 100px;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ffb347;
+            box-shadow: 0 0 12px rgba(255, 180, 70, 0.6);
+        }
+
+        .badge-bodystyle i {
+            font-size: 1.8rem;
+            color: #ffae42;
+            text-shadow: 0 0 5px #ff8c00;
+        }
+
+        .badge-bodystyle span {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #FFD966, #FFA559);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFF5E0, #FFD89A, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0.4rem 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .greeting-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #FFE4B5;
+            background: rgba(0,0,0,0.4);
+            display: inline-block;
+            padding: 0.2rem 1.8rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            margin-top: 8px;
+        }
+
+        .greeting-name i {
+            margin: 0 6px;
+            font-size: 1.3rem;
+            color: #ffaa44;
+        }
+
+        /* Основной контент */
+        .content {
+            padding: 2rem 2rem 1.8rem;
+        }
+
+        .wish-text {
+            background: rgba(10, 8, 20, 0.7);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid #ffb347;
+            backdrop-filter: blur(5px);
+        }
+
+        .wish-text p {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: #f0e9d8;
+            font-weight: 400;
+        }
+
+        .wish-text i {
+            color: #ffbe76;
+            margin-right: 8px;
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: #FFD966;
+        }
+
+        .power-meter {
+            background: rgba(0,0,0,0.5);
+            border-radius: 2rem;
+            padding: 1rem 1.5rem;
+            margin: 1.8rem 0;
+            text-align: center;
+            border: 1px solid rgba(255, 180, 70, 0.6);
+        }
+
+        .meter-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #ffc285;
+        }
+
+        .meter-bar-bg {
+            background: #2e2a3a;
+            border-radius: 40px;
+            height: 18px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .meter-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ffb347, #ff5e3a);
+            border-radius: 40px;
+            animation: powerGlow 1.8s infinite alternate;
+            position: relative;
+        }
+
+        @keyframes powerGlow {
+            0% { box-shadow: 0 0 2px #ffaa33; opacity: 0.9; }
+            100% { box-shadow: 0 0 12px #ff7722; opacity: 1; }
+        }
+
+        .meter-label {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: #b9afcf;
+        }
+
+        /* Список пожеланий в стиле Bodystyle */
+        .wish-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+            justify-content: center;
+        }
+
+        .wish-item {
+            background: rgba(255,255,245,0.08);
+            border-radius: 2rem;
+            padding: 0.7rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,200,100,0.3);
+            transition: all 0.2s;
+        }
+
+        .wish-item i {
+            font-size: 1.5rem;
+            color: #ffb85e;
+        }
+
+        .wish-item span {
+            font-size: 0.95rem;
+            color: #f2e5c6;
+        }
+
+        /* Кнопки действий */
+        .action-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0 1rem;
+        }
+
+        .btn {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #ffb347;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #fff2df;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: inherit;
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+        }
+
+        .btn:hover {
+            background: #ffb34720;
+            border-color: #ffcd7e;
+            transform: scale(1.03);
+            color: #ffdfaa;
+            box-shadow: 0 0 12px rgba(255,180,70,0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, #ff8c42, #ff5e2e);
+            border: none;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(255,80,40,0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(95deg, #ff9f5e, #ff784a);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(255,80,40,0.5);
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255,200,100,0.25);
+            font-size: 0.8rem;
+            color: #cbbfaa;
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* Воздушные шары (анимация) */
+        .balloon {
+            position: absolute;
+            bottom: -80px;
+            z-index: 5;
+            font-size: 2.2rem;
+            opacity: 0.6;
+            animation: flyBalloon 12s infinite ease-in;
+            pointer-events: none;
+        }
+
+        @keyframes flyBalloon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(15deg);
+                opacity: 0;
+            }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 650px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .greeting-name {
+                font-size: 1.2rem;
+            }
+            .wish-text p {
+                font-size: 1rem;
+            }
+            .badge-bodystyle span {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 8px 20px;
+                font-size: 0.85rem;
+            }
+            .birthday-card {
+                border-radius: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wish-item span {
+                font-size: 0.8rem;
+            }
+            .hero {
+                padding: 1.5rem 1rem 1rem;
+            }
+        }
+
+        /* Стиль для свечения */
+        .glow-text {
+            text-shadow: 0 0 5px #ffaa55;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Фоновые декоративные пузыри (абстрактные спортивные блики) -->
+<div class="bg-bubble" style="width: 350px; height: 350px; top: -100px; left: -80px; animation-duration: 20s;"></div>
+<div class="bg-bubble" style="width: 450px; height: 450px; bottom: -150px; right: -100px; background: radial-gradient(circle, rgba(255,150,100,0.2), rgba(210,80,140,0.15)); animation-duration: 25s;"></div>
+<div class="bg-bubble" style="width: 280px; height: 280px; top: 40%; left: 75%; background: radial-gradient(circle, rgba(255,215,0,0.2), rgba(255,100,50,0.1)); animation-duration: 17s;"></div>
+
+<!-- Плавающие шарики с эмодзи (спортивные/праздничные) -->
+<div class="balloon" style="left: 5%; animation-delay: 0s; animation-duration: 14s;">🏋️‍♂️</div>
+<div class="balloon" style="left: 15%; animation-delay: 2s; animation-duration: 16s;">🎈</div>
+<div class="balloon" style="left: 30%; animation-delay: 1s; animation-duration: 18s;">💪</div>
+<div class="balloon" style="left: 55%; animation-delay: 3s; animation-duration: 15s;">🥳</div>
+<div class="balloon" style="left: 80%; animation-delay: 0.5s; animation-duration: 17s;">🏆</div>
+<div class="balloon" style="left: 92%; animation-delay: 4s; animation-duration: 19s;">🎂</div>
+<div class="balloon" style="left: 70%; animation-delay: 2.5s; animation-duration: 13s;">⚡</div>
+
+<main class="birthday-card">
+    <div class="hero">
+        <div class="badge-bodystyle">
+            <i class="fas fa-dumbbell"></i>
+            <span>BODYSTYLE • POWER EDITION</span>
+            <i class="fas fa-fire"></i>
+        </div>
+        <h1>С ДНЁМ РОЖДЕНИЯ!</h1>
+        <div class="greeting-name">
+            <i class="fas fa-crown"></i> Богдан Солдатенков <i class="fas fa-muscle"></i>
+        </div>
+        <div style="margin-top: 12px; font-size: 1rem; color: #ffcd94;">
+            <i class="fas fa-calendar-alt"></i> Твой личный праздник силы и стиля
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="wish-text">
+            <p><i class="fas fa-quote-left"></i> Дорогой <span class="highlight">Богдан</span>, с днём рождения! Ты — воплощение энергии, дисциплины и харизмы. Твой стиль <span class="highlight">#Bodystyle</span> вдохновляет всех вокруг: гармония духа и тела, железная воля и огонь в сердце. Пусть каждый день приносит новые рекорды, яркие победы и моменты чистой радости. Оставайся собой — неповторимым, мощным и целеустремлённым! 💥🎂</p>
+            <p style="margin-top: 12px;"><i class="fas fa-heart" style="color:#ff6a6a;"></i> Желаем тебе море улыбок, крепчайшего здоровья, невероятных успехов и чтобы твоя жизнь была таким же ярким праздником, как сегодня! <i class="fas fa-champagne-glasses"></i></p>
+        </div>
+
+        <!-- Индикатор "Bodystyle Power" -->
+        <div class="power-meter">
+            <div class="meter-title">
+                <i class="fas fa-bolt"></i> УРОВЕНЬ BODYSTYLE <i class="fas fa-bolt"></i>
+            </div>
+            <div class="meter-bar-bg">
+                <div class="meter-fill"></div>
+            </div>
+            <div class="meter-label">⚡ Максимальная мощность | 100% драйва и стиля ⚡</div>
+        </div>
+
+        <!-- Список пожеланий в стиле Bodystyle -->
+        <div class="wish-list">
+            <div class="wish-item"><i class="fas fa-dumbbell"></i> <span>Новых спортивных вершин</span></div>
+            <div class="wish-item"><i class="fas fa-brain"></i> <span>Ясного ума и стальной мотивации</span></div>
+            <div class="wish-item"><i class="fas fa-chart-line"></i> <span>Роста личного бренда</span></div>
+            <div class="wish-item"><i class="fas fa-heartbeat"></i> <span>Крепкого здоровья на 100%</span></div>
+            <div class="wish-item"><i class="fas fa-star"></i> <span>Путешествий и крутых свершений</span></div>
+            <div class="wish-item"><i class="fas fa-hand-fist"></i> <span>Никогда не сдаваться!</span></div>
+        </div>
+
+       
+    <footer>
+        <i class="fas fa-gift"></i> С любовью и уважением, команда друзей и поклонников твоего стиля <strong>#Bodystyle</strong> <i class="fas fa-gym"></i><br>
+        Богдан, сияй ярко! 🎉  Солдатенков Богдан — лучшая версия себя.
+    </footer>
+</main>
+
+<script>
+    // Функция для классического конфетти
+    function shootConfetti(options = {}) {
+        const defaults = {
+            particleCount: 180,
+            spread: 70,
+            origin: { y: 0.6 },
+            startVelocity: 20,
+            colors: ['#FFD966', '#FFA559', '#FF6E4A', '#FF3A2F', '#6A4E9B', '#4BB3FD']
+        };
+        const config = { ...defaults, ...options };
+        canvasConfetti(config);
+    }
+
+    // мощный фейерверк из нескольких залпов
+    function megaFirework() {
+        // первый залп
+        shootConfetti({ particleCount: 250, spread: 100, origin: { y: 0.5 }, startVelocity: 25 });
+        setTimeout(() => {
+            canvasConfetti({ particleCount: 400, spread: 130, origin: { y: 0.4, x: 0.2 }, startVelocity: 28, colors: ['#ffb347', '#ff784a', '#f9d56e'] });
+            canvasConfetti({ particleCount: 400, spread: 130, origin: { y: 0.4, x: 0.8 }, startVelocity: 28, colors: ['#ff6a4b', '#ffcd7e', '#f5b042'] });
+        }, 120);
+        setTimeout(() => {
+            canvasConfetti({ particleCount: 600, spread: 160, origin: { y: 0.3 }, startVelocity: 22, colors: ['#FFD966', '#FF8C42', '#FF3A2F', '#C44F9E'] });
+            canvasConfetti({ particleCount: 200, spread: 80, origin: { y: 0.7, x: 0.5 }, startVelocity: 18, shapes: ['circle'] });
+        }, 350);
+        setTimeout(() => {
+            canvasConfetti({ particleCount: 1000, spread: 70, origin: { y: 0.5, x: 0.5 }, startVelocity: 12, decay: 0.9, colors: ['#FFE55C', '#FF8A5C', '#FF4D6D'] });
+        }, 600);
+    }
+
+    // Эффект салюта при загрузке + случайные искры
+    window.addEventListener('load', () => {
+        // первое приветственное конфетти
+        setTimeout(() => {
+            shootConfetti({ particleCount: 120, spread: 55, origin: { y: 0.7 }, startVelocity: 12 });
+            shootConfetti({ particleCount: 80, spread: 45, origin: { y: 0.5, x: 0.3 } });
+            shootConfetti({ particleCount: 80, spread: 45, origin: { y: 0.5, x: 0.7 } });
+        }, 300);
+        // второй залп через 1 секунду
+        setTimeout(() => {
+            canvasConfetti({ particleCount: 220, spread: 90, origin: { y: 0.55 }, startVelocity: 18, colors: ['#ffbc6e', '#ff9f4a', '#f06e3a'] });
+        }, 1000);
+    });
+
+   
+
+    // Эффект при клике на имя / можно сделать необязательный, добавим еще конфетти при клике на meter или на hero
+    const powerMeter = document.querySelector('.power-meter');
+    if(powerMeter) {
+        powerMeter.addEventListener('click', () => {
+            canvasConfetti({ particleCount: 70, spread: 55, origin: { y: 0.65 }, startVelocity: 12, colors: ['#FFB347', '#FFD966'] });
+        });
+    }
+    // также поздравительная анимация при клике на badge (дополнительный сюрприз)
+    const badge = document.querySelector('.badge-bodystyle');
+    if(badge) {
+        badge.addEventListener('click', () => {
+            canvasConfetti({ particleCount: 90, spread: 70, origin: { y: 0.5 }, startVelocity: 14, colors: ['#FFD966', '#FFA07A', '#FF6A4B'] });
+            setTimeout(() => {
+                canvasConfetti({ particleCount: 40, spread: 40, origin: { y: 0.45 }, startVelocity: 10 });
+            }, 100);
+        });
+    }
+
+    // Адаптивный фон под динамику (небольшой эффект свечения на кнопках)
+    console.log("Поздравление для Богдана Солдатенкова — Bodystyle style activated 💪🎂");
+</script>
+</body>
+</html>
